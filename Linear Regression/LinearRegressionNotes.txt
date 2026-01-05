@@ -1,0 +1,99 @@
+Linear regression: Statistical technique to find the relationship between variables. In ML, finds relationship between features and labels.
+Equation: y = mx + b
+	y --> variable to predict
+	m --> slope of the line
+	x --> input value
+	b --> y-intercept
+
+In ML, Equation: y' = b + w1.x1
+	y' --> predicted label - output
+	b (or w0) --> bias of the model (y-intercept): parameter of the model and calculated during training
+	w1 --> weigth of the feature (slope): parameter of the model and calculated during training
+	x1 --> feature - input
+
+Models with multiple features, same but wn.xn would become more because we have more features
+==> y' = b + w1.x1 + w2.x2 + w3.x3 ...
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Loss: numerical metric that describes how wrong a model's prediction are. measures distance between the model's predication and the actual labels.
+Training a model --> minimize loss
+
+Distance of loss: absolute difference between actual label and predicted value
+
+Types of Loss:
+L1 loss: Sum( |actual - predicted| )
+Mean Absolute Error  (MAE): Sum( |actual - predicted| ) / N with N being the number of examples
+L2 loss: Sum( (actual - predicted)^2 )
+Mean Squared Error (MSE): Sum( (actual - predicted)^2 ) / N
+Root Mean Squared Error (RMSE): sqrt(Sum( (actual - predicted)^2 ) / N)
+
+--> Squaring makes the loss even larger for vals>1. Makes the loss smaller for vals<1
+
+Choosing a Loss: consider how model will treat outliers.
+Outlier: datapoint that doesn't fall in the "normal" range of other datapoints
+	 can also refer to how far off a model's predictions are from real values.
+MSE moves the model more towards outliers, because square will make loss bigger, while MAE doesn't
+L2 loss incurs a higher penalty than L1 loss, because ^2
+
+--> MSE: model closer to outliers, farther away from other datapoints --> to heavily penalize large errors, if outliers are representative and helpful for model to take into account
+--> MAE: model farther away from outliers, closer to other datapoints --> for model that don't want to be influenced by outliers, more directly interpretable
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Gradient Descent: mathematical technique that iteritavly finds the weights and bias that produce the model with the lowest loss
+1) Calculate the loss with the current weight and bias
+2) Determine the direction to move the weights and bias that reduce loss
+3) Move the weight and bias values a small amount(learning rate) in the direction that reduces loss
+4) Return to step 1 and repeat until the model can't reduce the loss any further (weight and bias initially start at random vals close to zero)
+
+Model convergence and loss curves:
+loss curves show the loss changes as the model trains --> serve to converge and visualize loss convergence to zero as iterations happen, and weigths and bias change
+
+Convergence and convex functions: loss functions for linear models always produce a convex surface
+in 3d: z-axis: Loss value
+       x-axis: weight or bias
+       y-axis: weight or bias
+shape obtained is convex --> lowest point will be lowest loss --> best fit weigth and bias
+A linear model converges when it has found its minimum loss
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Hyperparameters: variables that control different aspects of training (Learning Rate, Batch size, Epochs), controlled by user
+vs parameters: like weight and bias, variables part of the model itself, calculated during training
+
+Learning Rate: floating pt number set to set how quickly the model converges. i.e. if learning rate too low --> model can take a long time to converge. if learning rate is too high --> model jumps aroung weight and bias that minimize the loss but never converges
+--> choose learning rate, not too low, not to high, so that the model converges quickly
+it determines the magnitude of the changes to make to weight and bias during each step of the gradient descent process
+!!!Ideal learning rate is problem-dependent!!!
+
+
+Batch size: # of examples the model processes before updating its weights and bias --> using each example is not efficient for very large datasets --> calculate the loss for certain batch sizes at a time instead of calculating for each example of the dataset
+
+-Stochastic gradient descent (SGD): uses only a single example (batch size = 1) per iteration. SGD is very noisy --> causes the loss to increase during an interation
+
+-Mini-batch stochastic gradient descent (mini-batch SGD): Compromise between full-batch and SGD. For N number of dps, 1 < batch size < N
+The model chooses the examples included in the batch at random, avgs their gradient and then update the parameters once per iteration
+
+
+Epochs: model has processed every example in the training set once.
+ex: 1000 examples training dataset and mini-batch size of 100 examples --> takes the model 10 iterations to complete 1 epoch
+Training requires many epochs --> the model needs to process each example
+the model updates weigth and bias once per epoch
+
+Full batch --> model updates for each epoch independently of the dataset size since full batch is all the examples in the dataset
+SGD --> model updates for each epoch* #of examples in the dataset since we calculated the GD for each example
+Mini-batch SGD --> model updates for each (total_#_of_examples / batch_size) * #_of_epochs
+
+
+
+
+
+
+

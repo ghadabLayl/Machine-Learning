@@ -1,0 +1,56 @@
+Linear Regression: bbuild a model that will answer questions like "Will it rain today?" or "Is this email a spam"
+
+Calculating a probability with the sigmoid function
+Logistic regression: mechanism to calculate probabilities, can be used in 2 ways:
+	- Applied 'as is'. --> return a percentage of representing how accurate we are
+	- Transformed into a binary category --> True <0.5, False>0.5 for example
+Sigmoid Function: f(x) = 1 / (1+e^-x)
+
+Transforming Linear output using the sigmoid function
+linear components of a logistic regression model:
+z = b + w1.x1 + w2.x2 + ...
+z --> output of the linear function called "odd logs"
+b --> bias
+w --> model's learned weights
+x --> feature values for a particular example
+
+==> To obtain the logistic regression model, we pass z into the sigmoid function:
+y = f(z) = 1 / (1+e^-z)
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+Loss and Regularization
+Logistic regression models use Log Loss as loss fct instead of squared loss (MSE...)
+Apply regularization to avoid overfitting
+
+Log Loss. Rate of change of Linear regression model is constant/proportional to input. For Logistic regression it is not constant --> sigmoid curve is s-shaped instead of linear
+==> Use Log loss function
+
+Log Loss = -1/N * Sum i=1->N (yi*log(yi') + (1-yi)*log(1-yi'))
+N --> Number of labeled examples in the dataset
+i --> index of an example in the dataset (x3,y3 is the third example in the dataset)
+yi --> label of the i-th example 0<yi<1
+yi' --> model's prediction for the i-th example, given the set of features in xi
+
+Regularization in Logistic Regression
+Mechanism for penalizing model complexity during training. without it, the asymptote of the sigmoid would keep driving loss towards 0 when we have a lot of features, use one of the two:
+- L2 regularization
+- Early Stopping: Limiting the number of training steps while loss is still decreasing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
