@@ -1,0 +1,104 @@
+Classification: task of predicting which set of classes an example belongs to
+
+Thresholds and the confusion matrix
+In logistic --> get percentage of how likely it is possible to be A or B
+In classification --> transform the numerical output into one of the two categories A or B
+To make this conversion, choose a classification threshold. if probability > threshold --> example assigned to positive class
+							    if probability < threshold --> example assigned to negative class
+
+Confusion Matrix
+There are 4 possible outcomes from a binary classifier
+ground truth: what is actually true
+Confusion matrix: table with columns being the ground truth (positive, negative) and the rows being the prediction (postive, negative)
+- True Positive (TP): A correctly classified as A
+- False Positive(FP): B classified as A, i.e. B incorrectly classified as A
+- False Negative(FN): A incorrectly classified as B
+- True Negative (TN): B correctly classified as B
+
+the total in each row (TP + FP) and (FN + TN) give respectively all predicted positives and all predicted negatives.
+the total in each column (TP + FN) and (FP + TN) give respectively all real positives and all real negatives, regardless of the classification
+
+When the total of actual positives is not close to total of actual negatives --> dataset is imbalanced
+
+Dataset types:
+- Seperated: positive and negative examples are well differentiated == positives have higher scores than negative ones
+- Unseperated: many positives have lower scores than negatives and vice-versa == dataset is very ambiguous
+- Imbalanced: containing only a few examples of the positive class
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Accuracy, recall, precision and related metrics
+Accuracy: proportion of all classifications that were correct, wether positive or negative
+	= (TP + TN) / (TP + TN + FP + FN) = correct classifications / total classifications
+It is an important metric for balanced datasets
+
+Recall: True Positive Rate (TPR) proportion of all actual positives that were classified correctly as positives
+	= correctly classified actual positives / all actual positives = TP / (TP + FN)
+False Negatives (FN): actual positives misclassified as negatives
+--> recall = probability of detection.
+In imbalanced dataset, recall is more important metric than accuracy (because actual positives<<<) because it measures the ability of the model to correctly identify all positive instances
+Similarly, FPR (False Predicted Rate) = incorrectly classified actual negatives / all actual negatives = FP / (FP + TN)
+
+Precision: proportion of all the model's positive classifications that are actually positive
+	= correctly classified actual positives / everything classified as positive = TP / (TP + FP)
+Precision improves as false positives decrease, while recall improves when false negatives decrease
+
+F1 score: kind of average between precision and recall
+F1 = 2 * (precision*recall) / (precision+recall) = 2TP / (2TP + FP + FN)
+prefered for class imbalanced datasets
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+ROC and AUC
+ROC: Reciever-operating characteristic curve
+visual representation of model performance across all thresholds
+drawn by calculating TPR vs FPR at every possible threshold
+
+AUC: Area under the (ROC) curve
+probability of a model, if given a randomly chosen positive and negative, will rank the positive higher than the negative
+binary classifier --> ROC is linear, diagonal from (0,0) to (1,1) and AUC = 0.5
+
+for imbalanced datasets, choosing precision-recall curves (PRC) is better than ROC
+
+AUC and ROC for choosing model and threshold
+AUC --> useful for comparing performance of different models as long as dataset is a minimum balanced --> model with greater AUC is the better one
+Threshold is then chosen based on the metric and as the closest point to the value of (0,1)
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+Prediction Bias: quick check that can flag issues with the model or training data early on
+--> difference between the mean of model's predictions and the mean of ground truth labels in data.
+caused by: - noise in the data 
+	   - too strong regularization
+	   - bugs in the model training pipeline
+	   - set of features provided to the model being insufficient for the task.
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+Multi-class classification
+extension of binary class. to more than two classes
+for example three-class classification: A, B and C
+classify first between A+B and C
+then classify between A and B if example falls in A+B
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
