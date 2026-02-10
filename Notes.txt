@@ -1,0 +1,197 @@
+Evaluating, cleaning and transforming data is very important before implementing an ML model.
+Numerical data: Integers and floating-point values that behave like numbers
+ex: Temperature, weight, number of a certain object...
+Postal number for example doesn't behave as a number that can be processed mathematically --> it is not numerical data.
+
+How a model digest data using feature vectors?
+feature vector: array of floating point numbers representing the selected features (comprising one example) that are ingested by the model.
+--> but might use the raw data --> then this data should be processed for a better outcome
+feature engineering: determining the best way to represent raw dataset values as trainable ones in the feature vector
+--> techniques: Normalization = converting raw numerical values into a std range
+		Binning (bucketing) = converting numerical values into buckets of ranges
+
+First step before creating feature vectors
+- Visualize the data
+look at data graphically (graph, plot, histogram...) 
+-Statistically evaluate your data
+gather statistics (mean, median, std dev, values at the quartile divisions -> 0% = min val, 100% = max val of a col)
+-Find outliers
+outlier: value distant from most other values
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Normalization
+Transform features to become on similar scale
+Benefits of Normalization:	- Helps model converg quickly during training. i.e. when features have different scales, gradient descent 				will bounce and slow convergence
+				- Helps model infer better predictions.
+				- Helps avoid "NaN" if feature range is very high, during computation
+				- Helps the model learn appropriate weights for each feature
+
+Three popular normalization methods: -- linear scaling -- z-score scaling -- log scaling
+
+1) Linear scaling
+converting fp values from their natural ranges to a standard range (0 to 1 or -1 to +1)
+formula to scale the std range 0 to 1,inclusive:
+x' = (x-xmin)/(xmax-xmin)
+with 	x' = scaaled value
+	x = original value
+	xmin = lowest value in the dataset of this feature
+	xmax = highest value in the dataset of this feature
+Good choice when:
+a) the lower and upper bounds of the data dont change much over time
+b) the feature contain few or no outliers, and these outliers are not extreme
+c) the feature is approximatly uniformly distributed across its range --> histogram would show equal bars for most values. (flat-shaped)
+
+2) Z-score scaling
+Number of std deviations a value is from the mean --> val is 2 std devs greater than the mean ==> Z-score(val) = +2.0
+formula to normalize a value x to its z-score:
+x' = (x-mu)/sigma
+with 	x' = z-score of x
+	x is the raw value
+	mu is the mean
+	sigma is the std dev
+It works with normalized and not normalized data as well. (bell-shaped)
+
+3) Log scaling
+computes the log of the raw value. inpractice, natural log is used, but in theory any log can be used.
+formula to normalize x, to its log:
+x' = ln(x)
+
+Log scaling is useful when data is conform to a power law distribution. (heavy-tail-shaped)
+--> low values X are very high values of Y, as X increase, Y quickly decrease.
+
+Clipping
+technique to minimize the influence of extreme outliers. it will cap the value of outliers to a specific max value. This does not mean that the values greater than the cap will be disregarded, but they will become all equal to the cap.
+Used when the feature contains extreme outliers
+
+
+--------------------------------------------------------------------------------------------
+
+
+Binning (bucketing)
+feature engineering technique that groups different numerical subranges into bins or buckets. --> turn numerical to categorical data
+Good alternative to scaling (=) or clipping when these conditions are met:
+1) the overall linear relationship between feature and the label us waek or nonexistent
+2) when the feature values are clustered
+--> used when feature is more clumpy than linear.
+
+While it is possible to create a large number of bins, it is often a bad idea to make a large number of bins, because:
+1) a model can only learn the associating between a bin and a label if there are enough examples in that bin
+2) a seperate bin for each sample of a specific feature would result of N seperate features (N being the number of samples). However, # of features for a model should be minimized.
+
+
+Quantile Bucketing
+Create bucketing boundaries such that the # of examples in each bucket is exactly or nearly equal. --> hides outliers.
+
+
+--------------------------------------------------------------------------------------------
+
+
+Scrubbing
+Datasets could face problems:
+Omitted values
+Duplicate examples
+Out-of-range feature values
+bad labeling
+It is the ML engineer role to fix these misses in the dataset
+
+
+--------------------------------------------------------------------------------------------
+
+
+Qualities of good numerical features
+Clearly named: each feature should have a clear name with obvious meaning.
+Checked or tested before training: data in a dataset is checked vigoursly before training, meaning the need to remove outliers that dont make sense
+Sensible: "magic value" --> purposefl discontinuity in a continuous feature range. (out of range value but made on purpose to represent for example the absence of a measurment.) --> it would result in bad model predictions... to avoid!
+For discrete numerical features each category would map to a number, and each would get a different weight, including original weights for missing features.
+
+
+--------------------------------------------------------------------------------------------
+
+
+Polynomial transforms
+A variable may be related to a square, cube or other power of another variable --> useful to create a synthetic feature from one of the existing numerical features.
+Data in a dataset may represent two different category, but to seperate them linear function wont work, need a polynomial one.
+we know that y = b + w1.x1, add w2.x2... for other features.
+it is possible to keep the linear equation and allow nonlinearity by defining x^ = x1^2 for example and implement it in y --> y = b + w1.x1 + w2.x^ --> it is still treated as linear regression problem.
+
+
+--------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
